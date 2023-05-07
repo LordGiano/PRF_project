@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
 import { Subscription } from "rxjs";
 
@@ -9,9 +9,9 @@ import { Subscription } from "rxjs";
 })
 export class HeaderComponent implements OnInit, OnDestroy{
   userIsAuthenticated = false;
-  private authListenerSubs: Subscription;
+  private authListenerSubs: Subscription = new Subscription();
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.changeDetector.detectChanges();
+        console.log("isAuth header"+this.userIsAuthenticated);
       });
   }
 

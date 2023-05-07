@@ -19,14 +19,14 @@ export class PostListComponent implements OnInit, OnDestroy {
   ];*/
   posts: Post[] = [];
   isLoading = false;
-  totalPosts = 10;
+  totalPosts = 0;
   postsPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 5, 10, 25];
   userIsAuthenticated = false;
-  userId: string;
-  private postsSub: Subscription;
-  private authStatusSub: Subscription;
+  userId!: string | null;
+  private postsSub!: Subscription;
+  private authStatusSub!: Subscription;
 
   constructor(public postsService: PostsService, private authService: AuthService) {}
 
@@ -49,7 +49,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onChangedPage(page: PageEvent) {
+  onChangedPage(pageData: PageEvent) {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.postsPerPage = pageData.pageSize;

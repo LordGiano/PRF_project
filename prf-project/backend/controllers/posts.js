@@ -27,6 +27,7 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.updatePost = (req, res, next) => {
+  console.log('Request body in updatePost:', req.body);
   let imagePath = req.body.imagePath;
   if (req.file) {
     const url = req.protocol + '://' + req.get("host");
@@ -39,6 +40,7 @@ exports.updatePost = (req, res, next) => {
     imagePath: imagePath,
     creator: req.userData.userId
   });
+  console.log('Constructed post object in updatePost:', post);
   Post.updateOne({_id: req.params.id, creator: req.userData.userId }, post).then(result => {
     if (result.n > 0) {
       res.status(200).json({ message: 'Update was successful!' });
