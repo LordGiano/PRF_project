@@ -18,8 +18,6 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {
     this.token = localStorage.getItem("token");
-    console.log("Token set in AuthService:", this.token);
-
   }
 
   getToken() {
@@ -42,15 +40,8 @@ export class AuthService {
     this.token = token;
   }
 
-  refreshToken(): Observable<string> {
-    const refreshTokenUrl = BACKEND_URL + '/refresh-token';
-    return this.http.post<string>(refreshTokenUrl, {});
-  }
-
   createUser(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
-    console.log("backend url: " + BACKEND_URL);
-    console.log("authData: " + authData);
     this.http.post(BACKEND_URL + "signup", authData).subscribe({
       next: () => {
         this.router.navigate(["/"]);
@@ -71,7 +62,6 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
-    console.log("Sending email and password:", email, password);
     this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
         BACKEND_URL + "login",
@@ -91,15 +81,11 @@ export class AuthService {
             const expirationDate = new Date(
               now.getTime() + expiresInDuration * 1000
             );
-            console.log(expirationDate);
             this.saveAuthData(token, expirationDate, this.userId);
             this.router.navigate(["/"]);
-            console.log("user id"+this.userId);
-            console.log("isAuth"+this.isAuthenticated);
           }
         },
         error: (error) => {
-          console.log("Login error, FRONTEND", error);
           this.authStatusListener.next(false);
         },
       });
@@ -115,7 +101,6 @@ export class AuthService {
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
     if (expiresIn > 0) {
       this.token = authInformation.token;
-      console.log("Token set in autoAuthUser:", this.token);
 
       this.isAuthenticated = true;
       this.userId = authInformation.userId;

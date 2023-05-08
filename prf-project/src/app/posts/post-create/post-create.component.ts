@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { PostsService } from "../posts.service";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { Post } from "../post.model";
 import { mimeType } from "./mime-type.validators";
 import { Subscription } from "rxjs";
@@ -26,7 +26,8 @@ export class PostCreateComponent implements OnInit, OnDestroy{
   constructor(
     public postsService: PostsService,
     public route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -105,6 +106,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
         )
         .subscribe(() => {
           this.isLoading = false;
+          this.router.navigate(['/']);
         });
     } else {
       if (this.postId) {
@@ -117,6 +119,7 @@ export class PostCreateComponent implements OnInit, OnDestroy{
           )
           .subscribe(() => {
             this.isLoading = false;
+            this.router.navigate(['/']);
           });
       }
     }

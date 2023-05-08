@@ -20,7 +20,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
         this.changeDetector.detectChanges();
-        console.log("isAuth header"+this.userIsAuthenticated);
       });
   }
 

@@ -94,12 +94,9 @@ export class PostsService {
       };
     }
 
-    const token = this.authService.getToken();
-    console.log('Token:', token);
     const httpHeaders = {
       headers: new HttpHeaders().set('Authorization', `Bearer ${this.authService.getToken()}`)
     };
-
     return this.http.put(BACKEND_URL + id, postData, httpHeaders);
   }
 

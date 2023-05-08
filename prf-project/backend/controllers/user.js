@@ -23,14 +23,13 @@ exports.createUser = (req, res, next) => {
         });
       });
   });
-}
+};
 
 exports.userLogin = (req, res, next) => {
   let fetchedUser;
   User.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
-        console.log("Login error, BACKEND, !user");
         return res.status(401).json({
           message: "Authentication failed..."
         });
@@ -40,7 +39,6 @@ exports.userLogin = (req, res, next) => {
     })
     .then(result => {
       if (!result) {
-        console.log("Login error, BACKEND, !result");
         return res.status(401).json({
           message: "Authentication failed..."
         });
@@ -59,9 +57,8 @@ exports.userLogin = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log("Login error, BACKEND, catch: " + err);
       return res.status(401).json({
         message: "Invalid authentication credentials..."
       });
     });
-}
+};

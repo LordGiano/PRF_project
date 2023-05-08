@@ -17,7 +17,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
       authStatus => {
-        console.log("Signup authstatus: " + authStatus);
         this.isLoading = false;
       }
     );
@@ -25,13 +24,10 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSignup(form: NgForm) {
     if (form.invalid) {
-      console.log("Valid form?" + form.valid);
       return;
     }
     this.isLoading = true;
     this.authService.createUser(form.value.email, form.value.password);
-    console.log("email: " + form.value.email);
-    console.log("pw: " + form.value.password);
   }
 
   ngOnDestroy(): void {
